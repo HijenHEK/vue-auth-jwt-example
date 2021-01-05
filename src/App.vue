@@ -29,7 +29,8 @@ import axios from './axios'
       logout(){
         localStorage.removeItem('access_token')
         this.$store.dispatch('User/user' , null)
-        this.$router.push('/login')
+        if(this.$router.history.current.path != '/login')  this.$router.push('/login')
+
 
       }
     },
@@ -37,7 +38,7 @@ import axios from './axios'
       axios.post('auth/me').then((response) => {
         this.$store.dispatch('User/user' , response.data);
         }).catch(()=>{
-          this.$router.push('/login')
+          if(this.$router.history.current.path != '/login')  this.$router.push('/login')
         })
     }
   }

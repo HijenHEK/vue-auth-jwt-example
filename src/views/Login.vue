@@ -22,6 +22,7 @@
 import Form from 'vform'
 import axios from '../axios'
 export default {
+    
     data(){
         return {
             form : new Form({
@@ -36,14 +37,16 @@ export default {
             this.form.post('http://www.jwtexample.test/api/auth/login').then((response) => {
                 localStorage.setItem('access_token' , response.data.access_token)
                 localStorage.setItem('token_type' , response.data.token_type)
+
             }).then(()=>{
                 
                 axios.post('auth/me').then((response) => {
                     this.$store.dispatch('User/user' , response.data);
-                                this.$router.push('/')
+                this.$router.push('/')
 
                 }).catch(()=>{
-                    this.$router.push('/login')
+                    if(this.$router.history.current.path != '/login')  this.$router.push('/login')
+
                 })
 
             })
