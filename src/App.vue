@@ -1,25 +1,43 @@
 <template>
   <div id="app">
     <div id="nav">
-      <div class="views">
+      <div v-if="user" class="views">
         <router-link to="/">Home</router-link> 
         <router-link to="/profile">Profile</router-link>
       </div>
-      <div class="auth">
+      <div v-if="! user" class="auth">
         <router-link to="/login">Login</router-link> 
         <router-link to="/resigter">Register</router-link>
+      </div>
+      <div v-if="user" class="auth">
+        <a @click.prevent="logout">Logout</a>
       </div>
     </div>
     <router-view />
   </div>
 </template>
 <script >
+import {mapGetters} from 'vuex'
 import axios from './axios'
   export default {
-    
+    computed : {
+      ...mapGetters({
+        user : 'User/user'
+      })
+    },
+    methods : {
+      logout(){
+        localStorage.removeItem('access_token')
+        this.$store.dispatch('User/user' , null)
+        this.$router.push('/login')
+
+      }
+    },
     mounted(){
       axios.post('auth/me').then((response) => {
         this.$store.dispatch('User/user' , response.data);
+        }).catch(()=>{
+          this.$router.push('/login')
         })
     }
   }

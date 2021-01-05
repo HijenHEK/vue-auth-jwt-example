@@ -18,6 +18,7 @@ const User = {
 
     actions : {
         user(ctx , user){
+            
             ctx.commit('user' , user)
         }
     }

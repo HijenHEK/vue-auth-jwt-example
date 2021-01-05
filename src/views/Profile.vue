@@ -1,6 +1,6 @@
 <template>
   <div class="about">
-    <h1>{{user.name}}</h1>
+    <h1 v-if="user">{{user.name}}</h1>
     <div>
       
     </div>
@@ -8,11 +8,14 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
 export default {
   computed : {
-    user (){
-      return this.$store.state.user
-    }
+    ...mapGetters({
+      
+      user :'User/user'
+      })
+    
   }
 }
 </script>
