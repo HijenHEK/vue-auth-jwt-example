@@ -9,15 +9,8 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home,
-    beforeEnter : (from , to ,next) => {
-        if(!store.state.User.user) {
-          next('/login');
-        } else {
-
-          next()
-        }
-        
-    }
+            
+    
   },
   {
     path: '/profile',
@@ -27,14 +20,7 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/Profile.vue'),
-    beforeEnter : (from , to ,next) => {
-      if(!store.state.User.user) {
-        next('/login');
-      } else {
-        next()
-      }
       
-  }
   },
   {
     path: '/login',
@@ -44,20 +30,22 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/Login.vue'),
-    beforeEnter : (from , to , next) => {
-      if(store.state.User.user || localStorage.getItem('access_token')) {
-        next(from)
-      }else {
-        next()
-      }
-    },
-  }
+    
+  },
 ]
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  let authenticated = store.state.User.user || localStorage.getItem('access_token')
+  if (to.name !== 'Login' && !authenticated) next({ name: 'Login' })
+  if (to.name === 'Login' && authenticated) next(from || '/')
+  else next()
+
 })
 
 export default router
