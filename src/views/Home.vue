@@ -1,10 +1,12 @@
 <template>
   <div class="home">
     
-    <div>
-      {{posts}}
+    <div class="posts-list">
+      <div v-for="p in posts" :key="p.index" class="post">
+        {{p.body}}
+      </div>
     </div>
-
+   
   </div>
 </template>
 
@@ -28,3 +30,10 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.post {
+  padding: 0.5rem;
+  
+}
+</style>
