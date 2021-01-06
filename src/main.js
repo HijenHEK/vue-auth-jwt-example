@@ -8,7 +8,6 @@ Vue.config.productionTip = false
 
 
 
-// window.axe = axe 
 
 
 

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import store from '../store/index'
+// import { axios } from 'vue/types/umd'
 Vue.use(VueRouter)
 
 const routes = [
@@ -41,9 +42,10 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  let authenticated = store.state.User.user || localStorage.getItem('access_token')
-  if (to.name !== 'Login' && !authenticated) next({ name: 'Login' })
-  if (to.name === 'Login' && authenticated) next(from || '/')
+  let authenticated = store.state.User.user || localStorage.getItem('access_token') && localStorage.getItem('access_token').length > 20
+  if (to.name !== 'Login'  && !authenticated) next({ name: 'Login' })
+  if (to.name === 'Login' && authenticated) next(from)
+  
   else next()
 
 })

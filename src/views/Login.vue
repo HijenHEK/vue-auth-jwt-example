@@ -37,20 +37,18 @@ export default {
             this.form.post('http://www.jwtexample.test/api/auth/login').then((response) => {
                 localStorage.setItem('access_token' , response.data.access_token)
                 localStorage.setItem('token_type' , response.data.token_type)
+                    axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.access_token;
 
-            }).then(()=>{
-                
-                axios.post('auth/me').then((response) => {
-                    this.$store.dispatch('User/user' , response.data);
-                this.$router.push('/')
-
-                }).catch(()=>{
-                    if(this.$router.history.current.path != '/login')  this.$router.push('/login')
-
-                })
+                    this.form.post('http://www.jwtexample.test/api/auth/me').then((response) => {
+                        this.$store.dispatch('User/user' , response.data)
+                        this.$router.push('/')
+                    })
+                           
+              
 
             })
         }
+        
     }
 }
 </script>
