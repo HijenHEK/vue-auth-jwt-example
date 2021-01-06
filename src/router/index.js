@@ -40,7 +40,6 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
-
 router.beforeEach((to, from, next) => {
   let authenticated = store.state.User.user || localStorage.getItem('access_token') && localStorage.getItem('access_token').length > 20
   if (to.name !== 'Login'  && !authenticated) next({ name: 'Login' })
@@ -49,5 +48,6 @@ router.beforeEach((to, from, next) => {
   else next()
 
 })
+
 
 export default router

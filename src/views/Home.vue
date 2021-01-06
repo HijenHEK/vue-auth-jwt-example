@@ -1,9 +1,9 @@
 <template>
   <div class="home">
-    <new-post></new-post>
+    <new-post :edit="edit" @edited="edit=null"></new-post>
     <div class="posts-list">
       <div v-for="p in posts" :key="p.index" class="post">
-        {{p.body}}
+        <span>{{p.body}}</span> <span> <button @click="edit=p">edit</button> <button @click="del(p)">del</button> </span>
       </div>
     </div>
    
@@ -11,6 +11,7 @@
 </template>
 
 <script>
+import axios from '../axios';
 import NewPost from '../components/NewPost.vue';
 // @ is an alias to /src
 // import HelloWorld from '@/components/HelloWorld.vue'
@@ -21,9 +22,21 @@ export default {
     NewPost
     // HelloWorld
   },
+  data (){
+    return {
+      edit : null
+    }
+  },
   computed : {
     posts(){
       return this.$store.state.Posts.posts
+    }
+  },
+  methods: {
+    del(p) {
+      axios.delete('/posts/'+p.id).then(()=>{
+        this.$store.dispatch('Posts/getPosts')
+      })
     }
   },
   mounted () {
@@ -36,6 +49,10 @@ export default {
 <style scoped>
 .post {
   padding: 0.5rem;
-  
+  min-width: 100px;
+  max-width: 400px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 </style>
