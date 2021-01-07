@@ -3,7 +3,7 @@
 
 ## intro
 
-this is a frontend powered by a token based api created by jwt, it demonstrate token authentification with a crud example , used with the following backend : <a link="https://github.com/HijenHEK/laravel-jwt-example" > laravel jwt example </a> running on seperate webservers 
+this is a frontend powered by a token based api created by jwt, it demonstrate token authentification with a crud example , used with the following backend : [laravel jwt example](https://github.com/HijenHEK/laravel-jwt-example)  running on seperate webservers 
 
 
 
